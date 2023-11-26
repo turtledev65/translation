@@ -6,7 +6,7 @@ interface Props {
 
 const LanguageSelect = forwardRef<HTMLSelectElement, Props>(({ className }, ref) => {
   return (
-    <select ref={ref} defaultValue="" className={`p-2 rounded-lg bg-gray-50 ${className}`}>
+    <select ref={ref} defaultValue="" className={`p-2 rounded-lg bg-gray-50 outline-none no-scrollbar ${className}`}>
       <option value="" disabled>Language</option>
       {languages.map(language => <option value={language.code} key={language.code}>{language.label}</option>)}
     </select>
