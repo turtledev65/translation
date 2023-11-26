@@ -6,7 +6,8 @@ import LanguageSelect from "./comopnoents/LanguageSelect"
 
 
 export default function Home() {
-  const [translatedText, setTranslatedText] = useState("");
+  const [translatedText, setTranslatedText] = useState("")
+  const [translating, setTranslating] = useState(false)
 
   const sourceLanguageRef = useRef<HTMLSelectElement>(null)
   const targetLanguageRef = useRef<HTMLSelectElement>(null)
@@ -18,12 +19,16 @@ export default function Home() {
     const targetLanguage = targetLanguageRef.current?.value;
     const text = textAreaRef.current?.value;
 
-    if (srcLanguage && targetLanguage && text)
+    if (srcLanguage && targetLanguage && text) {
+      setTranslating(true)
       axios.post("/api/translate", {
         srcLanguage,
         targetLanguage,
         text
-      }).then(res => setTranslatedText(res.data)).catch(err => console.log(err.message))
+      }).then(res => setTranslatedText(res.data))
+        .catch(err => console.log(err.message))
+        .finally(() => setTranslating(false))
+    }
   }
 
 
@@ -34,7 +39,7 @@ export default function Home() {
           <LanguageSelect className="w-full" ref={sourceLanguageRef} />
           <textarea ref={textAreaRef} className="w-full h-80 bg-gray-50 rounded-lg border border-gray-300 outline-none p-3 text-gray-900 resize-none"></textarea>
         </div>
-        <button type="submit" className="py-2 px-5 bg-cyan-100 rounded-md">Translate</button>
+        <button type="submit" className={`py-2 px-5 bg-blue-500 text-white rounded-md ${translating && "bg-gray-500"}`} disabled={translating}>{translating ? "Translating..." : "Translate"}</button>
         <div className="w-full space-y-2">
           <LanguageSelect className="w-full" ref={targetLanguageRef} />
           <textarea className="w-full h-80 bg-gray-50 rounded-lg border border-gray-300 outline-none p-3 text-gray-900 resize-none cursor-text" disabled value={translatedText}></textarea>
