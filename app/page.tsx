@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { FormEvent, useRef, useState } from "react";
-import LanguageSelect from "./comopnoents/LanguageSelect";
+import LanguageSelect from "./components/LanguageSelect";
 
 export default function Home() {
   const [translatedText, setTranslatedText] = useState("");
